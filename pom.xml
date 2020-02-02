@@ -89,7 +89,7 @@
                 <version>2.0.0</version>
                 <configuration>
                     <to>
-                        <image>docker.io/remiohead/micronaut-test</image>
+                        <image>docker.io/remiohead/website</image>
                     </to>
                     <from>
                         <image>gcr.io/distroless/java:11</image>
