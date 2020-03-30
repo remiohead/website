@@ -1,18 +1,15 @@
 package net.remiohead.website.weather;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.client.fluent.Request;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 import java.util.function.Supplier;
 
 import static java.util.Objects.requireNonNull;
 
-public class WeatherTask implements Supplier<Map<String, Object>> {
+public class WeatherTask implements Supplier<ImmutableWeatherData> {
 
     private final String location;
 
@@ -22,33 +19,28 @@ public class WeatherTask implements Supplier<Map<String, Object>> {
 
 
     @Override
-    public Map<String, Object> get() {
+    public ImmutableWeatherData get() {
         try {
-            final String response = Request
+            final var response = Request
                     .Post(this.generateUrl())
                     .execute()
                     .returnContent()
                     .asString(StandardCharsets.UTF_8);
-            final JsonObject root =
-                    new JsonParser()
-                            .parse(response)
-                            .getAsJsonObject();
-            final JsonObject main =
-                    root.getAsJsonObject("main");
-            final int temp = Math.round(
+            final var root = JsonParser
+                    .parseString(response)
+                    .getAsJsonObject();
+            final var main = root.getAsJsonObject("main");
+            final var temp = Math.round(
                     main.get("temp").getAsFloat());
-            final int humidity = main.get("humidity").getAsInt();
+            final var humidity = main.get("humidity").getAsInt();
 
-            final JsonObject weather =
-                    root.getAsJsonArray("weather")
-                            .get(0).getAsJsonObject();
-            final String desc = weather.get("main").getAsString();
+            return ImmutableWeatherData.builder()
+                    .temp(temp)
+                    .humidity(humidity)
+                    .location(this.location)
+                    .response(response)
+                    .build();
 
-            return ImmutableMap.of(
-                    "temp", temp,
-                    "humidity", humidity,
-                    "desc", desc
-            );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,5 +53,9 @@ public class WeatherTask implements Supplier<Map<String, Object>> {
         url.append("&APPID="+ System.getenv("OPEN_WEATHER_API_KEY"));
         url.append("&units=imperial");
         return url.toString();
+    }
+
+    public static ImmutableWeatherData home() {
+        return new WeatherTask("98106,us").get();
     }
 }
