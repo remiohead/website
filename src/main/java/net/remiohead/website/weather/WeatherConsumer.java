@@ -9,7 +9,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import static java.util.Objects.requireNonNull;
-import static net.remiohead.website.models.Tables.WEATHER;
+import static net.remiohead.websitedatabase.models.Tables.WEATHER;
 
 @Component
 public class WeatherConsumer {

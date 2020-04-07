@@ -1,6 +1,6 @@
 package net.remiohead.website.weather;
 
-import net.remiohead.website.models.tables.records.WeatherRecord;
+import net.remiohead.websitedatabase.models.tables.records.WeatherRecord;
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;
 import org.jooq.JSON;

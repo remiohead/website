@@ -1,8 +1,7 @@
 package net.remiohead.website;
 
-import net.remiohead.website.models.Tables;
-import net.remiohead.website.models.tables.Person;
-import net.remiohead.website.models.tables.records.PersonRecord;
+import net.remiohead.websitedatabase.models.Tables;
+import net.remiohead.websitedatabase.models.tables.records.PersonRecord;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
