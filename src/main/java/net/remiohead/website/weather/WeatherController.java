@@ -9,12 +9,12 @@ import static java.util.Objects.requireNonNull;
 @RestController
 public class WeatherController {
 
-    private final WeatherConsumer consumer;
+    private final DefaultWeatherConsumer consumer;
     private final WeatherProducer producer;
 
     @Autowired
     public WeatherController(
-            final WeatherConsumer consumer,
+            final DefaultWeatherConsumer consumer,
             final WeatherProducer producer) {
         this.consumer = requireNonNull(consumer);
         this.producer = requireNonNull(producer);
